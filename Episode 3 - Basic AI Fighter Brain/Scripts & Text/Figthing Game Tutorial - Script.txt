@@ -1,0 +1,271 @@
+--- Intro ---
+Hello everybody, 
+My name is Kellin from KindoSaur Productions and
+welcome back to a new tutorial for the Godot Engine.
+
+Today we are going to take an approach to a well known arcade genre from the 90s, its the tournament fighter.
+These types of games are really fun to pick up but are also really hard to master, espacially with all of those combos you need to keep 
+track.
+
+So what I will do untill the end of this tutorial well its simple:
+- I will make a working character that can throw a puch, 
+- have a basic combo system that uses time 
+- and of course a basic functionality for the hit detections. 
+
+If there is an interest for the making of a more advanced tutorial, please let me know in the comments. 
+Today I will kinda give you a base to work from.
+
+--- Part 1 : Set Up ---
+Please don't skip this part yet but before you start, you might want to know how I have set up everything.
+
+First: In the top left corner of the engine, under DEBUG, I have set Visible Collision Shapes to true.
+This will help us to see all the colliders within the Debug Play Scene.
+
+Second: 
+When I first looked at these type of games, I immediately knew a way on how collisions might've been done.
+Since the total amount of collisionboxes were mainly used for the hands, feet and body of you and your opponent,
+it seems logical that these were the only boxes within that scene and that they were shutoff when not in use.
+
+So with that idea in mind, I have created a separated scene which will store our player.
+The player starts with a KinematicBody2D and has the following children:
+- A CollisionShape2D
+- An AnimatedSprite
+- And a simple 2D Node which will be called Colliders and will hold 2 more 2D nodes 1 for the hands the other for the feet.
+
+If I open up the Hand Colliders Node, you can see that I have added an Area2D node and within that another CollisionShape2D.
+Don't worry about any special settings or other weird stuff that I might've missed since that was all that is needed. I only changed
+the visibility on some of the colliders.
+
+I then made a new group to store all of player one's colliders, this can be whatever you want to call it. For now I have called it
+"P1 Hand Feet Coll".
+If you can't remember how to make a group and place objects in it, here is a quick recap:
+Click on the "Node" tab > Click on "Magage Groups" > In the bottom left, left of "Add", fill in a name for your new group > 
+Press "Add" > You can now click on your new group and select the things you want to store within it > For now ONLY STORE THE COLLISION SHAPES 
+
+Lastly, head over to "Project Settings" and click on "Input Map". 
+In here you'll have to make a new action called "ui_punch" or "action" or whatever.
+ 
+--- Part 2 : Movement Code ---
+
+Now that everything has been set up we can finally start with the actual work.
+
+Like I said earlier, the player uses an AnimatedSprite. This handy node will help us make some easy animations and will grant us access to some 
+functions within our code. For now I've created 4 animations for "Ryo", don't get me started on the pronounciation of 
+this fella. 
+
+These animations are : Idle, Low Kick, Straight Punch and Upper Cut.
+Idle is the only animation which "Loop" is set to true. 
+
+Now that our player has some basic animations, we now want to help him figure out how and when to use them.
+At our player KinematicBody2D we will add a new script which will be called "PlayerMovementScript".
+
+--- Intermission ---
+Before I start coding I want to ask something: Godot has a way for you as developer to work in C#, which is really neat but the way things are found
+or used is sometimes completly different than what you might've expected. So here comes the question: if you are using Godot C#, would you like
+to also have this project available on my Git in C#? 
+For now I haven't really done it, but if you think it would be nice to have, please let me know in the comments. 
+
+Anyway lets get back to coding
+--- ----
+
+Now with the new Script open we first want to give Godot a way to access our AnimatedSprite:
+``onready var animatedSprite = $AnimatedSprite``
+
+Next we want to have some variables that can keep track of the most important stuff:
+- A boolean called ``isInCombo``, which starts at false
+- 2 floats called ``timeTillNextInput`` and ``time``, the first starts at 0.5 and the latter at 0
+- and also 2 integers which we'll use to keep track of our currentAttack and also our previousAttack
+
+Inside ``func _ready():`` we will set ``time`` equal to ``timeTillNextInput``
+
+Inside the ``func _process(delta)`` we will start of by telling Godot that ``if ui_punch`` is just pressed, we want to do the following check.
+
+if our currentAttack == 0: we want the animator to play the "straight punch".
+Below this ``if`` we want to start a new elif, this one is going to check if our currentAttack is at 1.
+if that is the case it needs to play "Upper Cut"
+
+and lastly if our currentAttack is at 2 we want it to play the "low kick".
+
+Now we will exit the last elif and place our currentAttack, this will be connected to the input and will go up by 1 after every input.
+
+When checking the Debug Scene, you are able to see every transition of your character from the idle to the last puch or kick.
+Ok now that that is working lets get going to the next part.
+
+--- Part 3 : Combo ---
+
+Every fighter needs to have a combo system and this can become as advanced and technical as you want but for now I want it to be simple and easy to
+follow. We will only focus on performing these actions within a time limit and creating a combo system out of that. 
+
+But for the people who really want an extra challenge of making the system advanced, Listen closely to the following 
+because I'll leave you with the following route to take:
+
+A combo, within fighter games, can usually only be performed within a fixed Time limit but also with the game holding onto a List of previous inputs
+within that timespan. 
+If the new List of inputs matches a List of inputs for a Special Attack, or Special Ability, it will be performed and a new List will be made or the old one is
+refreshed. this List will do that aswell if you ran out of time or got hit by the opponent. 
+
+The most important question for you will be: How do I keep track on previous inputs? how will I store the List and also how will I compare it with the rest?
+
+Ok with that out of the way we will make the simple form of a combo system, using time.
+
+After we hit the ``ui_punch`` key, we would like to set some variables to a new value: above our ``currentAttack += 1`` we will place the boolean ``isInCombo``,
+we set this value to be true. This is because the player always starts with the first part of a combo.
+
+Underneath ``currentAttack`` we then make a new if statement, this one is outside of the Input statement.
+This ``if`` is asked for every frame and will check if the ``isInCombo`` is true.
+
+if this is the case it will do the following:
+decrease ``time`` by delta.
+It will then check for a new ``if``, this one being about if the time has become less than 0.
+If that is the case it will do something new: It will reset almost every variable.
+This means that:
+- Time becomes the same value as timeTillNextInput
+- isInCombo becomes false again
+- our currentAttack is being set back to 0
+- and lastly our animatedSprite will have to play the idle animation again
+
+We now only miss one thing and that is a function that will reset the Time after every input, since we now have a cycle where we have to perform all the inputs within
+0.5 seconds, this is way to short. 
+
+So this new function will be called ``_Reset_Attack_Timer()``, in here we will place an if statement to see if the currentAttack is higher than our total amount of moves +1
+since the last move also needs to have 0.5 seconds of stay time.
+If the check is completed we will reset our time to the same value as of timeTillNextInput.
+
+We will call this Function right underneath ``currentAttack += 1``.
+
+If we test out the game, it should display every move correctly and also reset everything to the right values
+
+--- Part 4 : Colliders ---
+
+We are almost there, we only need to see how we can move our colliders in between every move and also turn them off when they aren't in use. It would be kinda mean to 
+hit your opponent every frame by only standing next to them.
+
+So here is how we do it:
+
+We go back into our player scene and make a new script, this script will be placed onto the 2D node named ``Colliders`` and will have the very generic name of ``ColliderScript``.
+
+In the ColliderScript we will add only 2 more variables: 1 Array called p1FightColl & 1 Boolean called disableColl.
+disableColl will start of as true.
+
+We then head towards the Area2D nodes, these will help us detect if a body has entered. We can connect these areas to the ColliderScript as follows:
+Click on an Area2D node > Click on the Node tab > Click on signals > Click on a function called Body_entered(body) > Either click Connect (bottom right) or double click the function >
+Click on the Node2D Colliders > And lastly click connect once more.
+
+If performed correctly you'll see a signal next to the Area2D node and also a new function inside of the CollidersScript.
+Do this for all the body parts, accept the main body. 
+Cool we now need to add a new process(delta) function for debugging, a function called ``Handle All Collider Disabling`` within the parameter a bool called isDisabled and to top it off
+also a function called ``Handle Specific Collider Disabling`` within its own parameter 2 variables : 1 boolean also called isDisabled and an integer called pickedColl.
+
+The first function to be filled with code is going to be Handle All Collider Disabling.
+in here we will make a for loop named colliders and we will make it go through our colliders group made all the way at the beginning of this tutorial.
+
+We then make a local variable called ``h`` and we'll make it start at 0. 
+``h`` will be our indicator for in our array we just made.
+
+After this we tell our array ``p1FightColl`` to insert new values in the first parameter, this is going to be the letter h and in the next parameter we place the current 
+collider the for loop is bussy with.
+Now that this collider is stored we can now ask our array to either disable or enable it, depending on the isDisabled variable input. 
+Keep in mind that it says ``set_disabled`` this means that if you say true, it is off and if you say false it is on.
+
+For debugging sake we'll debug the name of the current collider the loop is standing on.
+For more debugging security we'll make an ``if-elif``, this one will check if the current collider is on or not. Again look closely for the wording of this function, it goes from the
+perspective that the collider is already disabled upon entering.
+
+Now to make the debugger readable we have to add an empty line in between all the information. After that we will add +1 to h and call all of this from the _ready function within the 
+parameter the disableColl bool.
+
+Next on the chopping block is the ``Handle Specific Collider Disabling``, like the name suggests it will be our main function to use. Since after we have thrown a punch we don't want to
+reset all colliders everytime, so lets get specific.
+
+At the start of our game the array will be filled with all of the colliders. Which is really nice because we will not be needing the for loop in this one and can simply call the array.
+We only have to set the value of the collider set disabled by the isDisabled parameter.
+
+Again for debugging standards, a new ``if-elif`` is added to check the specific state of the collider.
+
+To see if everything is working I'll add a process(delta) to this script and place in some actions.
+
+If everything went correctly you should now see that your collider is turning on and off again. With the 
+Handle Specific you should be able to enable and disable the specific collider within the array.
+
+Now we only need to connect all of these things to the PlayerMovementScript. 
+What we'll do now is the that player needs to be able to control his or her own colliders. Meaning that these will only move to a set position or at least move when we pressed the attack 
+input.
+  
+To get inside the ColliderScript from the PlayerMovementScript all we have to do is write: ``onready var ColliderScript = $Colliders``.
+We now have access to the script that is placed on another node and with that we also gained access to the functions we had written.
+
+This script will now also gain another function called ``_Reset_Previous_Attack()`` as parameter it will have an integer named previousAttackID.
+In this function we will enter the ColliderScript > Enter the Array holding our colliders > Set the value of the collider to pick to be the same as previousAttackID > fill in ``.postion`` >
+And set that back to Vector2(0,0) aka their starting coordinates at the start of the game.
+We then go back inside the ColliderScript and send a signal to ``Handle Specific Collider Disabling`` and set the parameters to true and also give it the ``previousAttackID`` to select with.
+
+We call this function after each currentAttack value check and also after the time has become less than 0. Only filling in the parameter the previousAttack value.
+Which is for now a set number, because of my 3 moves. Before I forget, this value is set after calling for the ``Reset Previous Attack``, even at the very first punch.
+
+One of the last things on this list is setting the positions when this action is performed and calling for the ``Handle Specific Collider Disabling`` function and setting the values to 
+false and a number of the collider. 
+
+If you have more moves or more colliders, you might like to have a better system for sorting what kind of move requires what kind of hit box.
+
+--- Part 5 : Ending ---
+
+Well done, there is now a basic fighter script laying before you, just waiting to be enhanced and build upon.
+
+To test all of these things out, I have added E Honda who's only a KinematicBody with a collisionshape and a sprite.
+And connected all of the body entered function to simply fire when it's name is the same as E Honda.
+ 
+Hopefully my code has helped you quite a bit for your arcade classic development and if you have any questions or you want to share some improvements, please leave them down in the comments.
+This way we can help eachother becoming better developers. 
+
+I am Kellin from Kindosaur Productions and this was another Godot Tutorial, see you next time. 
+
+Bye Bye.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

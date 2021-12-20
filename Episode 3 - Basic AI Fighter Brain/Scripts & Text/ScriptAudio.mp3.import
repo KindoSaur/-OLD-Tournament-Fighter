@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ScriptAudio.mp3-1c01878e5f054ab17b03741f4b0bd781.mp3str"
+
+[deps]
+
+source_file="res://Scripts & Text/ScriptAudio.mp3"
+dest_files=[ "res://.import/ScriptAudio.mp3-1c01878e5f054ab17b03741f4b0bd781.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
