@@ -1,0 +1,65 @@
+extends KinematicBody2D
+
+onready var _animated_sprite = $AnimatedSprite
+var isInCombo = false
+
+var timeTillNextInput = 0.5
+var time = 0
+
+var currentAttack = 0
+var previouseAttack = 0
+
+onready var ColliderScript = $Colliders
+
+func _ready():
+	time = timeTillNextInput
+
+func _process(delta):
+	if(Input.is_action_just_pressed("ui_punch")):
+		if(currentAttack == 0):
+			_Reset_Previous_Attack(previouseAttack)
+			previouseAttack = 3
+			
+			ColliderScript.p1FightColl[3].position += Vector2(25,0) 
+			ColliderScript._Handle_Specific_Collider_Disabling(false, 3)
+			_animated_sprite.play("Straight Punch")
+
+		elif(currentAttack == 1):
+			_Reset_Previous_Attack(previouseAttack)
+			previouseAttack = 3
+			
+			ColliderScript.p1FightColl[3].position += Vector2(5,-27)
+			ColliderScript._Handle_Specific_Collider_Disabling(false, 3)
+			_animated_sprite.play("Upper Cut")
+
+		elif(currentAttack == 2):
+			_Reset_Previous_Attack(previouseAttack)
+			previouseAttack = 0
+			
+			ColliderScript.p1FightColl[0].position += Vector2(75,-13)
+			ColliderScript._Handle_Specific_Collider_Disabling(false, 0)
+			_animated_sprite.play("Low Kick")
+		
+		isInCombo = true
+		currentAttack += 1
+		_Reset_Attack_Timer()
+	
+	if(isInCombo):
+		time -= delta
+		
+		if(time < 0):
+			time = timeTillNextInput
+			isInCombo = false
+			currentAttack = 0
+			_Reset_Previous_Attack(previouseAttack)
+			_animated_sprite.play("Idle")
+
+#--- Reset the timer after every input so that we can start making combos ---
+func _Reset_Attack_Timer():
+	if(currentAttack < 4):
+		time = timeTillNextInput
+
+#--- Reset the position of the previous updated collider position (previousAttack)---
+func _Reset_Previous_Attack(var previousAttackID):
+	ColliderScript.p1FightColl[previousAttackID].position = Vector2(0,0)
+	ColliderScript._Handle_Specific_Collider_Disabling(true, previousAttackID)
