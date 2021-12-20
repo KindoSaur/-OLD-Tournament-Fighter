@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Sprites/E Honda/E Honda - Idle.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 34, 48 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 288, 272 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 384, 272 )
+current = true
+zoom = Vector2( 0.3, 0.3 )
+
+[node name="E Honda" type="KinematicBody2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="E Honda"]
+position = Vector2( 384, 280 )
+z_index = -1
+texture = ExtResource( 2 )
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="E Honda"]
+position = Vector2( 368, 272 )
+shape = SubResource( 1 )
