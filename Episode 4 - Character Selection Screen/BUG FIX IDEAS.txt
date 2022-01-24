@@ -1,0 +1,4 @@
+Onnodig wachten voor de input om een combo te maken kan worden aangepast naar pas als de punch animatie voorbij is
+dan kan je geen combo meer maken hierdoor krijg je minder input delay.
+
+https://guiltygear.fandom.com/wiki/Combo

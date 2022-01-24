@@ -1,0 +1,184 @@
+--- INTRO ---
+
+Hello everybody,
+my name is Kellin from KindoSaur Productions and today we will continue the Tournament Fighter series with a very common screen the "Character Selection Screen".
+Yes in this tutorial we will make a functioning selection screen that will allow different characters to be chosen and will also have the function to automatically 
+set the correct script based on their role as either player or AI opponent.
+
+If you are having trouble with following todays tutorial a link in the description will lead you to my GitHub page. From there you can download the whole project and 
+tinker and test around.  
+
+Before I begin I again really want to thank you for supporting this channel by watching my videos and also by posting some great questions after each tutorial
+I am getting really motivated by seeing people being helped by my videos and also eachother so lets keep this energy going
+by diving directly into todays video and get yourself closer to finishing your project! =)
+
+--- PART 1: CHANGES ---
+
+Normally I would tell you that there have been alot of changes since the last video. But this time it is not the case since
+we will be mostly working on another scene that is going to be connected to our main fighting scene.
+
+My offscreen changes are mainly adding new character sprites, portraits and also setting up their Animation so that we 
+won't be having any strange errors. 
+I need to mention that although this is a series on how someone would go and make a tournament fighter this will not be
+ending up like a full blown game. So the new characters that I've added are only using 1 sprite to visualy present themselves
+and also allow me to use them.  
+
+--- PART 2: SET UP ---
+
+Since there aren't many changes we can head of directly to our set up.
+We first need to create a new scene for our character selection where the base node is of a type called Control. 
+In this tree we will also add a GridContainer node, this node allows us to store other Control Node elements in a perfect order.
+
+Most of the GridContainer's settings are still on default except for the Columns amount (3), position (-52, -34), size (104, 68) and Pivot (52, 34).
+
+Because GridContainer is an element of the Control Node type we can't make it interact with 2D Node types such as sprites, so for our portraits we will be using a
+TextureRect. The TextureRect is almost the same as a Sprite2D node but again only useable as an element of another Control node type like a GridContainer.
+None of its settings have been altered, so the only thing you have to do is place the amount you need, give each one their respective portrait texture and name them.
+
+We then need to make a new group called "Characters", inside of this group we will place all of the TextureRects so that we can use our code to acces all of them later on in
+the video. 
+
+Once this is all done we can create a new Camera. Because you might be working with sprites that are quite small it might be best to make use of the camera's zoom setting instead 
+of trying to figure out how big you need to make your portraits via a scaler.
+You make the camera zoom in by setting the Zoom values of the camera to be closer to 0, if you have bigger Textures than the camera is able to capture than you'll have to go
+towards 1 and above. 
+
+Lasty we need to add a simple Sprite2D node. This sprite will be used as our cursor to navigate around the character roster, since we can't ask a TextureRect it's position on
+screen it is best to place this Sprite2D directly on the very first item. What might happen is that the cursor disappears when it gets placed on top of the portrait, you
+don't have to worry as you can go to the Z-Index of the Node and set this to be 1 value higher than the item that is currently blocking it.
+
+--- PART 3: THE CODE ---
+
+For today we will add 3 new scripts so lets start with the first one the "Character Select Script" this script will be placed onto our Cursor Sprite2D node.
+
+<"CharacterSelectScript.gd">
+
+What this script will do is very simple, it will allow us movement of the cursor within a restricted area of the character roster and when we press the select button
+store the correct character.
+
+To do all of this we first need to set up some variables.  
+We will need 1 Object Array called "characters", this will store all of our TextureRects that we can select.
+
+We also need 3 Integers called: currentSelected, currentColumnSpot and currentRowSpot. 
+currentSelected will be used to tell us what TextureRect within the "characters" Array is selected.
+currentColumnSpot will be used to determine if we are over a set columns value 
+and currentRowSpot will do the same but now for the Rows section.
+
+We then need to export 4 types:
+2 Textures to show which player is currently choosing a character.
+1 Integer that will tell this script how many rows it is working with (keep in mind that we are counting rows by starting at 0).
+And also a Vector2, this one will be used to help the cursor find a new position within the GridContainer.
+
+And at the very bottom we will make a reference to the GridContainer itself to figure out how many columns it is using.
+
+When these variables are set and done we can start by heading to the ready function and make a for-loop. In this for-loop we want to get all of the TextureRects stored
+within the group Characters and add them to the Object Array.
+
+When it is done doing that we can set our texture to be the same as that of player1Text. 
+
+Next up we are going to move our cursor, this is going to be done within the process function.
+
+In here we will first detect if the player has pressed one of the direction keys, for example "right". If that is the case currentSelected and currentColumnSpot should go 
+up by 1 and the cursor should move on its X plus the offset amount given within the Vector2 portraitOffset.
+We also want to do the opposite when pressing the key "left", this time doing everything in a negative direction.
+
+When we test this you can see that the cursor is moving freely but with steps far enough from portrait to portrait. What we want to do now is allowing the cursor to 
+move down a portrait and start again at the portrait of the column. We only want this to happen when the cursor passes the total amount of columns value stored in the 
+GridContrainer Node.
+
+The following if statement should thereby be as follows:
+"If the currentColumnSpot becomes bigger than the total amount of columns set within the GridContainer - 1 "
+{ 
+	set the X position of the cursor to be the outcome of (currentColumnSpot - 1) * 
+	the portraitOffset.x.  
+
+	And add the portraitOffset.y to the current y position of the cursor.
+	Lastly we will set the values of the currentColumnSpot to be 0 and set the currentRowSpot to be += 1 as we went down a row.
+
+}
+
+Again do the opposite thing when the player moves to the left and test to see if the cursor is moving correctly from left to right up and down.
+
+I myself like how some menus are able to loop around when you reached the last selectable character, so for today I want to implement that as well to make sure that the cursor isn't 
+going to disappear when the player keeps on going to the right or left.
+
+Before we make the new statement we first need to update the previous one. As of now it will always detect being true since our last character we can select is also the last character
+within the column. What we need to add in the statement is a check to see: 
+"if the currentSelected is still smaller than amount of characters being stored"
+
+Now with that statement updated we can now make the last if statement to check: "if the currentColumnSpot is bigger than the amount of columns in GridContainer && 
+that the currentSelected is also bigger than the amount of characters that we have stored"
+{
+	If all is true the position of the cursor needs to be placed on the very first column spot and the same goes for the row spot.
+
+	Then all the values will be set to 0 to make sure all is reset properly
+}
+
+
+And again to the same thing for going to the left.
+
+If all went well you should be able to menu freely through all of your characters.
+
+The only thing left to do is transfering the right selected character to the main fighting scene. Therefor we will be using a new Singleton called "CharacterSelectionManager".
+This script will store our selected character by first going through a dictionary. This dictionary will then give the Manager a preloaded scene to temperorarily store 
+until the eventual GameScript asks for this information.
+
+For the people who forgot: You can turn a script into a singleton by heading to the Project Settings > click on the Auto Load tab > Find the script you want to turn into a Singleton and give 
+it a good name. I'll give mine the name "CharacterSelectionManager". 
+
+<"CharacterSelectionManager.gd">
+
+So to achieve all of this we will need 2 variables that will store a character, these will be called "player" and "opponent".
+Then we need 2 variables that will store the most important scripts, the playerScript and the aiScript.
+
+And at last a small dictionary called selectableCharacters. In here we will use the name of the portrait we selected as the key to receive the preloaded character scene.
+
+<"CharacterSelectScript.gd">
+
+Back to the CharacterSelectScript, we will need to make sure that the player can select a character, so we will add an Input statement. When this input is performed the following must happen
+{
+	We first need to check if player 1 has found the character he or she wants to use, ("if CharacterSelectionManager.player is still empty")
+	{
+		If not it means that the character the cursor is on will be that for player 1. 
+		And now that player one has a character we would like to change our texture to be that for player 2
+	}
+}
+
+Now when player 2 has made a decision we run this statement again
+{
+	This time storing the selected character as an opponent and directly going to the next scene
+}
+
+
+--- Part 4 : LAST BITS OF CODE ---
+
+So now we can select a player and an opponent and store the correct characters in a few singleton variables. All we have to do now is acces the values and use them in the game scene.
+
+We first need to delete Ryu and E Honda from our scene and add a new script to the root node and call this script "GameScript"
+
+In this script we will make 2 onready object variables that will be filled with the information provided by the singleton. We call these "givenPlayer" and "givenOpponent"
+
+We then go to the ready function and make a call to a new function called SpawnChosenCharacters().
+In this function we will set up both the player and the opponent by giving them a slight offset and also by providing them with their own script.
+To fully push them into the world we will call_deffer an "Add_Child" function providing the correct "givenObject"
+
+If you were to test this now you'll receive an error from the aiScript telling you that it doesn't know who it is fighting against and thereby crashes the game.
+To fix this we will need to head to the aiScript and change the way it will spot the player. The way we did it previously was by exactly telling it what his target is by going through
+the tree. But now with random characetrs it needs a new way to get to the player and detect him or her.
+
+We do this by referencing the GameScript and after that ask to search within the GameScript who the player is.
+
+--- PART 5: OUTRO ---
+
+Awesome we are done and finished for the day, you now have your very own Character Selection Screen that needs very little maintenance when adding new characters to the roster.
+I do need to mention that there is a bug with the colliders when selecting the same character twice so that must be solved. For now I am not really sure what causes this and I didn't want
+to push the delay of this video any further so for now it will remain.
+
+But anyway we are finally done and you are now ready to make your own character combo's who will be fighting in your ring.
+I am really interested to see other peoples progress on this topic so if you are currently following this series and really want to share your project.
+Post a link in the comments and I'll be sure to check it out and maybe even play it =)
+
+And as always, if there are questions or you see impovements for in my code please let me and the rest of us know.
+Anyway my name is Kellin from KindoSaur Productions and I wish you very good luck with your project.
+
+
