@@ -1,0 +1,121 @@
+--- INTRO ---
+
+Hello everybody,
+my name is Kellin from KindoSaur Productions and today we will continue the tournament fighter series with the making of the Heads up Display. 
+This piece of visual information is really important for any game. So it is really handy if you got this inside of your own project.
+
+In case you clicked this video for a specific part when making the HUD I've made a small time-stamp list of everything inside of todays tutorial.
+For now I want to mainly focus on the Timer, the Healthbar, and also the Name tags underneath it.
+
+With that out of the way, lets get started.
+
+--- PART 1: SET UP ---
+I've changed my resolution of the game to the value of the SNES, this is 512 x 448. I did this so that the sprites are better presented on screen, and it is also a way to prevent scaling of characters, fonts or even certain effects.
+
+I have also set the Resizeable to true, the Stretch Mode to be 2D and Aspect to Keep. What I've noticed is that your game will look better on different screen resolutions if these settings are set.
+
+The next thing we need to do is make a new scene and call this one "HUD-Elements"
+
+Inside of this scene we will need the Control node to be the root of this scene.
+Go under Rect and set the size to be that of your game resolution.
+
+On this very first node we will make a new script and call it the "HUD-manager". This script will handle everything that has to do with the visual info for the player.
+
+You also need to instance this scene into the Game scene so that it everything will work properly. You can instance a scene by clicking on the small chain next to the plus. From there pick a scene you want to instance.
+
+--- PART 2: HUD-Element Health : SET UP ---
+We then make a new child control node and call this KO-Bar Holder. On my end this nodes rect is 512 x 100 pixels. 
+
+Inside of the KO-Bar Holder we will need to add 3 nodes: 2 TextureProgress nodes called Player1Health and Player2Health and 1 TextureRect which stores the actual KO-Bar visual.
+For the TextureProgress of player 1 we need to set the Fill Mode to "Left to Right" and for player 2 from "Right to Left".
+
+Under Textures we only need to set a white texture for "Under" and "Progress", set the Tints to your prefered color and lastly you can set your own values. If you want you can scale this bar to any size, mine is 6 by 0.5.
+
+--- PART 2: HUD-Elements Health : CODE ---
+Now that you have set up the KO-Bar visually we now need it to work so here we go.
+
+Inside of the HUD-Manager we will need to add 2 references to the player1- and player2 healthbars.
+After this we need to make a function and call this UpdateHealth. To make this function opporate we will add 2 variables, 1 boolean called "fromPlayer1Health" and 1 integer called "damage".
+
+Inside of this function we will first detect if the damage received is for player 1 or for player 2, we than subtract the damage amount from the chosen party's healthbar. 
+And as a fail safe we will also add a statement that will end up in a "GameOver" function.
+
+Next we are going to pay a small visit to the "GameScript". In here we will make a reference to the "HUDManager" since most of our other scripts already have a reference to the GameScript.
+
+All we have to do now is connect the player and the AI to the the UpdateHealth function we made earlier.
+What we need to do is pick a character and click on its Area2D node that is used to detect the body of the opponent.
+On this node we will create a new script and call it "HitBodyDetectionScript". 
+
+In here we will first make a reference to the GameScript, keep in mind that you got the route to the GameScript correct or else it will throw an error.
+
+Next we click on the Area2D node > go next to Node tab next to the inspector tab > and go under Signals > Here we want to select "Body_Entered" > We than need to connect this signal to the newly made script and call this function "Player_Hit_AI" > Lastly we do the same thing but call this one "AI_Hit_Player", since your character could either be an AI or a player.
+
+Lastly we will need to perform a simple check to see that what the AI or Player has struck actually is the opponent of it. Meaning that it wont start damaging itself.
+After this: reach the UpdateHealth() function via the GameRef and HUDManager and fill in false if the Player was hitting the AI or true when the AI was hitting the Player. 
+
+One small tip you can use the same signal over and over again on all of your characters, as long as you are naming the newly made signal function of that character the same way as you had before.
+
+Do this to all of your characters and lets see the outcome.
+
+As you can see both parties are able to hit eachother and visualize it to the KO-Bar
+
+--- PART 3: HUD-Elements Time : Set Up --- 
+Next up Time.
+For today I am going to use sprite numbers to be represented in our timer but you can also use different types of font stuck to an actual value to recreate this timer, the basics on making this are and will stay the same so no worries there.
+
+First we need 3 new nodes:
+- 2 TextureRects for our numbers, where one is meant for a value of 10 and the other for a value of 1.
+
+- And we also need a timer node, this one will allow us to automatically detect if a second has gone by by simply setting the "Wait Time" to be 1 and the "AutoStart" to be true
+
+--- PART 3: HUD-Elements Time : Code ---
+You can now also make a Signal go towards the HUD-Manager script which detects when the Timer has reached 0. 
+Click on Timer > Click besides the inspector tab on node > And under signals click on TimeOut and connect it to the script > You'll see that it is perfectly connected.
+
+Before we go on we first need to add some variables to make all of this work, we will be needing:
+- 2 integers, named oneSeconds and tenSeconds
+- 1 boolean, named resetOnes to check if the time has reached its last 10 seconds
+- 3 references, to the Timer and the 2 TextureRects telling the time
+- and lastly an Array called "timeSprites" to store all of our number sprites to make the timer work
+
+Let's head back to the Signal Function created by the timer.
+The first thing we do is subtract by 1 everytime the timer hits 0. We than make an if statement that will check if "oneSeconds" has a value less than 0. If this is the case we need to reset "oneSeconds" back to 9 and subtract 1 from "tenSeconds". But this can only happen as long as the boolean "resetOnes" is true. Else it will set "oneSeconds" at 0, stop the timer and will also start the GameOver() Function.
+
+We also check the variable "tenSeconds" if it is equal to 0. 
+If it is, set "tenSeconds" to stay 0 and also set the "resetOnes" to be false.
+
+After this you now need to set the TextureRects of both seconds to be spots given inside of the timeSprites array and also reset the timer back to 1.
+
+Once you have finished all of the coding you can now go to the HUD-Manager node and set your Array. You first need to click it and set a value. We are using 10 numbers from 0 to 9, we than need to click on the small pencil next to the null and click on the word "Object". Now you can drag and drop your number texture into the correct slot. 
+
+And once again here are the results
+
+--- PART 4 : HUD-Elements Names : Set Up ---
+
+For the names to be displayed correctly all we have to do is give the names of our character nodes to the HUD-Manager for it to type it out. But if you are using a special texture we need a bit of a different way of displaying the correct name. 
+
+We only need to use 2 TextureRects, one for each player.
+
+--- PART 4 : HUD-Elements Names : Code ---
+From here on out we only need to do the following: 
+- Make 2 new Arrays made for storing the Player 1 and 2 names
+- We than only need to make 2 references to the 2 TextureRects that will display our names
+
+Next up, we need to make a function called UpdateNameElements with 2 integer variables inside of its parameters called player1ID and player2ID. We now only have to apply the texture of the TextureRect to the given position inside of the names Array we had set up.
+
+We are not done yet, the only thing we have to do is go to our GameScript and give this information to the HUDManager.
+So inside of the Ready function call the UpdateNameElements function and set its parameters to be the integer positions of the CharacterSelectionManager.player- and opponentSelected. 
+
+If you haven't got this in your code you can simply fill in a number to get your result.
+
+And now go to your HUD-Elements node and go to your Array > Click the Pencil next to the null > and click on Object > now you can apply your name texture.
+
+--- PART 5 : OUTRO ---
+
+If all went well you'll now have a fully working Heads up Display that updates when a character hits another, one that can keep track of time and will also automatically update the name tags based on the chosen character from the previous scene.
+
+Hopefully this video was really helpful and as always if you have spotted some issues or you see an issue in the code, please let me and others know. 
+
+Also also if you want to share your project, you can always contact me.
+
+My name is Kellin from KindoSaur Productions and I wish you the best of luck with your project. Bye Bye! 
