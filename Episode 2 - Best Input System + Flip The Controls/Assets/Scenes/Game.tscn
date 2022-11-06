@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/HUD-Elements.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Textures/Temp/SNES - Street Fighter Alpha 2 - Stage 18.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/GameScript.gd" type="Script" id=5]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+
+[node name="Background" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -280.0
+margin_right = 166.0
+margin_bottom = 191.0
+rect_scale = Vector2( 2.35, 2.35 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HUD Elements" parent="." instance=ExtResource( 1 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 512.0
+margin_bottom = 448.0

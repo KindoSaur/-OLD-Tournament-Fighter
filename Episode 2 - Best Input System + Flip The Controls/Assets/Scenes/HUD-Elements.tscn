@@ -1,0 +1,163 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://Scripts/HUDManager.gd" type="Script" id=1]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n8.png" type="Texture" id=2]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n0.png" type="Texture" id=3]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n7.png" type="Texture" id=4]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n6.png" type="Texture" id=5]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n5.png" type="Texture" id=6]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n1.png" type="Texture" id=7]
+[ext_resource path="res://Textures/UI Elements/KO-Bar.png" type="Texture" id=8]
+[ext_resource path="res://Textures/UI Elements/whitesquare.png" type="Texture" id=9]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n4.png" type="Texture" id=10]
+[ext_resource path="res://Textures/UI Elements/Character Names/P1_Ryu.png" type="Texture" id=11]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n3.png" type="Texture" id=12]
+[ext_resource path="res://Textures/UI Elements/Character Names/P2_EHonda.png" type="Texture" id=13]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n9.png" type="Texture" id=14]
+[ext_resource path="res://Textures/UI Elements/Time Numbers/n2.png" type="Texture" id=15]
+[ext_resource path="res://Textures/UI Elements/Character Names/P1_EHonda.png" type="Texture" id=16]
+[ext_resource path="res://Textures/UI Elements/Character Names/P2_Ryu.png" type="Texture" id=17]
+[ext_resource path="res://Textures/UI Elements/Character Names/P2_ChunLi.png" type="Texture" id=18]
+[ext_resource path="res://Textures/UI Elements/Character Names/P2_Zangief.png" type="Texture" id=19]
+[ext_resource path="res://Textures/UI Elements/Character Names/P2_Blanka.png" type="Texture" id=20]
+[ext_resource path="res://Textures/UI Elements/Character Names/P1_Blanka.png" type="Texture" id=21]
+[ext_resource path="res://Textures/UI Elements/Character Names/P1_ChunLi.png" type="Texture" id=22]
+[ext_resource path="res://Textures/UI Elements/Character Names/P1_Zangief.png" type="Texture" id=23]
+[ext_resource path="res://Textures/UI Elements/Character Names/P2_Ken.png" type="Texture" id=24]
+[ext_resource path="res://Textures/UI Elements/Character Names/P1_Ken.png" type="Texture" id=25]
+
+[node name="HUD Elements" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -256.0
+margin_top = -224.0
+margin_right = 256.0
+margin_bottom = 224.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+timeSprites = [ ExtResource( 3 ), ExtResource( 7 ), ExtResource( 15 ), ExtResource( 12 ), ExtResource( 10 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 14 ) ]
+namesP1 = [ ExtResource( 11 ), ExtResource( 16 ), ExtResource( 21 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 23 ) ]
+namesP2 = [ ExtResource( 17 ), ExtResource( 13 ), ExtResource( 20 ), ExtResource( 24 ), ExtResource( 18 ), ExtResource( 19 ) ]
+
+[node name="KO-bar Holder" type="Control" parent="."]
+anchor_right = 1.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player1Health" type="TextureProgress" parent="KO-bar Holder"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -197.0
+margin_top = -10.0
+margin_right = -165.0
+margin_bottom = 22.0
+rect_scale = Vector2( 6, 0.5 )
+value = 100.0
+texture_under = ExtResource( 9 )
+texture_progress = ExtResource( 9 )
+tint_under = Color( 0.901961, 0.0117647, 0.0117647, 1 )
+tint_progress = Color( 0.941176, 0.752941, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player2Health" type="TextureProgress" parent="KO-bar Holder"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 7.0
+margin_top = -10.0
+margin_right = 39.0
+margin_bottom = 22.0
+rect_scale = Vector2( 6, 0.5 )
+value = 100.0
+texture_under = ExtResource( 9 )
+texture_progress = ExtResource( 9 )
+fill_mode = 1
+tint_under = Color( 0.901961, 0.0117647, 0.0117647, 1 )
+tint_progress = Color( 0.941176, 0.752941, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KO-BAR" type="TextureRect" parent="KO-bar Holder"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -199.0
+margin_top = -16.0
+margin_right = 201.0
+margin_bottom = 12.0
+rect_pivot_offset = Vector2( 399, 26 )
+texture = ExtResource( 8 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Time Holder" type="Control" parent="."]
+margin_left = 216.0
+margin_top = 63.0
+margin_right = 296.0
+margin_bottom = 103.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="1s" type="TextureRect" parent="Time Holder"]
+margin_left = 44.0
+margin_right = 64.0
+margin_bottom = 20.0
+texture = ExtResource( 14 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="10s" type="TextureRect" parent="Time Holder"]
+margin_left = 22.0
+margin_right = 42.0
+margin_bottom = 20.0
+texture = ExtResource( 14 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="Time Holder"]
+autostart = true
+
+[node name="Names" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Player Name 1" type="TextureRect" parent="Names"]
+margin_left = 59.0
+margin_top = 64.0
+margin_right = 115.0
+margin_bottom = 82.0
+texture = ExtResource( 11 )
+stretch_mode = 5
+
+[node name="Player Name 2" type="TextureRect" parent="Names"]
+margin_left = 398.0
+margin_top = 63.0
+margin_right = 454.0
+margin_bottom = 81.0
+grow_horizontal = 0
+rect_pivot_offset = Vector2( 56, 0 )
+texture = ExtResource( 13 )
+expand = true
+stretch_mode = 5
+
+[connection signal="timeout" from="Time Holder/Timer" to="." method="_on_Timer_timeout"]

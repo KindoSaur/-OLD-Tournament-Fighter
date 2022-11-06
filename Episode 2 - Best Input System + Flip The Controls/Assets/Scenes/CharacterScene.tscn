@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Prefabs/Fighters/E Honda.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Prefabs/Fighters/Ryu.tscn" type="PackedScene" id=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 544, 273 )
+current = true
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="Ryu" parent="." instance=ExtResource( 2 )]
+position = Vector2( 649, 276 )
+
+[node name="Sprite" parent="Ryu" index="1"]
+offset = Vector2( 0, 4 )
+region_rect = Rect2( 8, 3369, 66, 86 )
+
+[node name="E Honda" parent="." instance=ExtResource( 1 )]
+position = Vector2( 437, 257 )
+
+[editable path="Ryu"]
+[editable path="E Honda"]

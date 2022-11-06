@@ -1,0 +1,517 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Scripts/Characters/RyuInputHandler.gd" type="Script" id=2]
+[ext_resource path="res://Textures/Fighters/Ryu/RyuSpriteSheet.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 16.5, 44 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "Crouch Idle Animation"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Rect2( 142, 136, 62, 65 ), Rect2( 142, 136, 62, 65 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 15 ), Vector2( 0, 15 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "Crouch Jab Animation"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.2, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 15 ), Vector2( 4, 15 ), Vector2( 17, 15 ), Vector2( 4, 15 ), Vector2( 0, 15 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.2, 0.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 142, 136, 62, 65 ), Rect2( 4, 1152, 72, 66 ), Rect2( 82, 1152, 99, 66 ), Rect2( 4, 1152, 72, 66 ), Rect2( 142, 136, 62, 65 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetAttackingState"
+} ]
+}
+
+[sub_resource type="Animation" id=23]
+resource_name = "Crouch Light Kick Animation"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 6, 2229, 76, 65 ), Rect2( 86, 2229, 109, 65 ), Rect2( 6, 2229, 76, 65 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 6, 14.5 ), Vector2( 22.5, 14.5 ), Vector2( 6, 14.5 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.15 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetAttackingState"
+} ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Crouch To Idle Animation"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 142, 136, 62, 65 ), Rect2( 211, 129, 62, 72 ), Rect2( 281, 112, 63, 89 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 15 ), Vector2( 0, 12 ), Vector2( 0, 2 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetCrouchedState"
+} ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "Hadoken"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 522, 3164, 65, 94 ), Rect2( 10, 3168, 74, 90 ), Rect2( 87, 3173, 91, 85 ), Rect2( 181, 3178, 96, 80 ), Rect2( 285, 3181, 114, 77 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 2 ), Vector2( 0, 4 ), Vector2( 0, 7 ), Vector2( 0, 9 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetAttackingState"
+} ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("Ryu")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetCrouchedState"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Idle Animation"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 2, 11, 66, 94 ), Rect2( 71, 12, 66, 93 ), Rect2( 140, 11, 66, 94 ), Rect2( 209, 9, 66, 96 ), Rect2( 279, 8, 64, 97 ), Rect2( 347, 9, 66, 96 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, -1 ), Vector2( 0, -1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"values": [  ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "Idle To Crouch Animation"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 5, 112, 63, 89 ), Rect2( 73, 129, 62, 72 ), Rect2( 142, 136, 62, 65 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 3 ), Vector2( 0, 11 ), Vector2( 0, 15 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "_SetCrouchedState"
+} ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 4 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Rect2( 8, 3369, 66, 86 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "Shoryuken"
+length = 0.9
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 4 ), Vector2( 0, 2 ), Vector2( 0, -18 ), Vector2( 0, -13 ), Vector2( 0, -11 ), Vector2( 0, -3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 522, 3164, 65, 94 ), Rect2( 8, 3369, 66, 86 ), Rect2( 83, 3365, 78, 90 ), Rect2( 176, 3328, 62, 130 ), Rect2( 244, 3260, 55, 121 ), Rect2( 315, 3271, 61, 117 ), Rect2( 380, 3353, 62, 100 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.9 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetAttackingState"
+} ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("Ryu")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.9 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetCrouchedState"
+} ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Standing Light Jab Animation"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 3, 893, 74, 94 ), Rect2( 80, 892, 102, 95 ), Rect2( 185, 893, 74, 94 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 15, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.15 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetAttackingState"
+} ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("Ryu")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetCrouchedState"
+} ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "Standing Light Kick Animation"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ryu/Sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 497, 2133, 67, 94 ), Rect2( 566, 2133, 65, 94 ), Rect2( 656, 2137, 118, 90 ), Rect2( 566, 2133, 65, 94 ), Rect2( 497, 2133, 67, 94 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Ryu/Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1.5, 1 ), Vector2( 0.5, 0.5 ), Vector2( 15, 2 ), Vector2( 0.5, 0.5 ), Vector2( 1.5, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Ryu")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "_SetAttackingState"
+} ]
+}
+
+[node name="Ryu" type="KinematicBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 6 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+offset = Vector2( 0, 4 )
+region_enabled = true
+region_rect = Rect2( 8, 3369, 66, 86 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+"anims/Crouch Idle Animation" = SubResource( 4 )
+"anims/Crouch Jab Animation" = SubResource( 8 )
+"anims/Crouch Light Kick Animation" = SubResource( 23 )
+"anims/Crouch To Idle Animation" = SubResource( 5 )
+anims/Hadoken = SubResource( 10 )
+"anims/Idle Animation" = SubResource( 2 )
+"anims/Idle To Crouch Animation" = SubResource( 1 )
+anims/RESET = SubResource( 11 )
+anims/Shoryuken = SubResource( 12 )
+"anims/Standing Light Jab Animation" = SubResource( 7 )
+"anims/Standing Light Kick Animation" = SubResource( 22 )
+
+[node name="Ryu Input Handler" type="Node2D" parent="."]
+script = ExtResource( 2 )
